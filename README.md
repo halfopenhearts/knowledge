@@ -23,6 +23,11 @@
 📄 Notes: [Linux](./day3.md)  
 > **EOD:** 
 
+
+Important persistance
+-
+- profiles, registry, permission sets
+
 ---
 
 ## Editing / Reference
