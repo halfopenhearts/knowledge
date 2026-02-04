@@ -17,7 +17,7 @@
 📄 Notes: [Registry Editing & ADS](./day2.md)  
 > **EOD:** Registry analysis reveals valuable forensic artifacts.
 
-## 📅 Day Two
+## 📅 Day Three
 **Topic:** Windows Registry & Alternate Data Streams  
 
 📄 Notes: [Linux](./day3.md)  
