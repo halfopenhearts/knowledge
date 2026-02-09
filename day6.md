@@ -144,5 +144,60 @@ HKCU:\Software\Classes\ms-settings\shell\open\command
 
 
 
+start of SysIntenrals
+_____________________
+shows live execution vs local installation
+net use *
+New-PSDrive
+
+AUTORUNS identifies programs that automatically execute during boot
+- system boot
+- userl ogon
+
+- common persistence locations include
+- wubkigin
+- services
+- scheduled tasks
+- appinit
+- logon
+- driver
+
+
+tcpview tip
+view -> update speed -> 5 seconds
+
+  PsExec 
+  - secure lightweight execution , similiar to telnet but misleading
+
+  PsLoggedon
+  - view logged on users on another device
+
+  LogonSessions
+  - display how users authenticated onto the system
+
+  PsList - command-line utility for listing running processes
+  can be run: locally, remotely and proviceds a gui
+  supports timed refresh, unblike tasklist or Get-Process
+
+  PsInfo - rapid host fingerprinting - good for determing things about like what os and kernel build and etc that youre running
+
+  strings - static anaylsis
+  - a (ascii) 
+
+  handle - data structure representing an open instance of an os object
+  example: files , registry keys, dlls, shared memory
+  if a file cant be deleted its probably because of a handle
+- without a handle there is no application
+
+
+autorun -> how persistence surivives reboot
+procmom 0> how systems behave over time
+procexp -> whats running in the backgrorund
+
+
+
+
+
+
 
 
