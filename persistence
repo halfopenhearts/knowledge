@@ -96,3 +96,8 @@ PS C:\Users\andy.dwyer> Get-EventLog -LogName System | ft -wrap | findstr /i fla
      781 Jan 02 18:09  Information Microsoft-Windows-DH        51047 DHCPv6 client service is stopped. ShutDown Flag value is 1
 PS C:\Users\andy.dwyer>
 
+
+
+
+
+ps -p 1 -o comm=
