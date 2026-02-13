@@ -1,4 +1,4 @@
-dll, powershell profiles, services, reg keys, linux bashrc, schtasks/crontab, DLL injection
+dll, powershell profiles, services, reg keys, linux bashrc, schtasks/crontab, DLL injection, groups
 
 
 
@@ -101,3 +101,8 @@ PS C:\Users\andy.dwyer>
 
 
 ps -p 1 -o comm=
+
+
+
+
+nested groups can hide privilege
