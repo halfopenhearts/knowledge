@@ -1,9 +1,64 @@
-- **rocky** — https://github.com/RockyOracleofHalfTruths/CCTC — _notes:_
-- **animate** — https://github.com/Animate3045/CCTCos — _notes:_
-- **amos** — https://github.com/jonathanamos1992/Day1-CCTC — _notes:_
-- **awa** — https://github.com/jlawall9/CCTC_NET_notes/tree/main/OS — _notes:_
-- **eche** — https://github.com/Jangy1/cctc — _notes:_
-- **silva** — https://github.com/LCPLSilva/cctc — _notes:_
-- **sypherpk** — https://github.com/sypherctrl/CCTC/tree/main/OS — _notes:_
-- **dlong** — https://github.com/Dlong87/cctc — _notes:_
-- **wocky** — https://github.com/jabberwocky3/CCTC — _notes:_
+# useful links
+
+---
+
+### [rocky](https://github.com/RockyOracleofHalfTruths/CCTC)
+
+> **Notes:**  
+> 
+
+---
+
+### [animate](https://github.com/Animate3045/CCTCos)
+
+> **Notes:**  
+> 
+
+---
+
+### [amos](https://github.com/jonathanamos1992/Day1-CCTC)
+
+> **Notes:**  
+> 
+
+---
+
+### [awa](https://github.com/jlawall9/CCTC_NET_notes/tree/main/OS)
+
+> **Notes:**  
+> 
+
+---
+
+### [eche](https://github.com/Jangy1/cctc)
+
+> **Notes:**  
+> 
+
+---
+
+### [silva](https://github.com/LCPLSilva/cctc)
+
+> **Notes:**  
+> 
+
+---
+
+### [sypherpk](https://github.com/sypherctrl/CCTC/tree/main/OS)
+
+> **Notes:**  
+> 
+
+---
+
+### [dlong](https://github.com/Dlong87/cctc)
+
+> **Notes:**  
+> 
+
+---
+
+### [wocky](https://github.com/jabberwocky3/CCTC)
+
+> **Notes:**  
+> 
