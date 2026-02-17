@@ -1,0 +1,24 @@
+procdump - dump a process to an executable file sample?
+
+cmdscan - extract command history by scanning for _COMMAND_HISTORY?
+
+driverscan - will show driver objects?
+
+imageinfo - find which memory profile to use with a memory image?
+
+
+Order of Volatility
+Registers and Cache Memory: These are the most volatile data locations. Registers are small storage locations within the CPU that hold data temporarily during processing. Cache memory, which is faster and smaller than RAM, stores frequently accessed data for quick retrieval. Both types of memory lose their contents almost instantaneously when power is lost. 
+2
+RAM (Random Access Memory): This is volatile memory that holds data and programs currently in use. It loses its contents when the system is powered down or rebooted, but it retains data longer than cache memory. 
+1
+Temporary File Systems: These are used for storing temporary data during processing. While they are more stable than RAM, they can still be lost if the system crashes or is powered down unexpectedly. 
+1
+Disk Storage: Hard drives and SSDs (Solid State Drives) are non-volatile storage, meaning they retain data even when powered off. However, data on these devices can still be altered or deleted. 
+1
+Remote Logging and Monitoring Data: This data is less volatile as it is stored on external servers or systems, but it can still be lost if the connection is interrupted or if the remote system is compromised. 
+1
+Physical Configuration and Network Topology: This information is generally stable and does not change frequently, making it one of the least volatile data types. 
+1
+Archival Media: Data stored on archival media, such as DVDs or tapes, is the least volatile as it is designed for long-term storage and is not affected by power loss. 
+1
