@@ -313,14 +313,160 @@ top-secret information
 ```
 
 
+linux essentials
+  Explain the Purpose of Understanding the Linux Environment
+  Identify Commands to Enumerate Processes
+  Identify Methods of Automation and Logic
+  Identify Critical Locations in the Linux File System
+  Discuss String Manipulation Techniques to Identify Key Information
+
+```
+1.1.1 Situational Awareness
+After first obtaining access to a system an operator must gather as much information about their environment as possible, this is referred to as situational awareness. pwd is just one command of many on Linux which can provide us some insight.
+
+Other commands to help gain situational awareness:
+
+hostname or uname -a displays the name of the host you are currently on.
+whoami shows the user you are currently logged in as (useful after gaining access through service exploitation).
+w or who shows who else is logged in.
+
+ip addr or ifconfig displays network interfaces and configured IP addresses.
+
+ip neigh or arp displays MAC addresses of devices observed on the network.
+
+ip route or route shows where packets will be routed for a particular destination address.
+ss or netstat will show network connections or listening ports
+nft list tables or iptables -L to view firewall rules.
+sudo -l displays commands the user may run with elevated permissions.
+```
+
+
+
 Windows Boot
   Describe the Windows Boot Process
   Identify the Windows Logon Process
   Discuss Analyzing Boot Configurations with BCDEdit
 
+
+
+```
+smss.exe installs the Win32 subsystem kernel and user mode components (win32k.sys - kernel; winsrv.dll - user; and csrss.exe - user.)
+
+csrss.exe - The Client/Server Runtime Subsystem supports process / thread creation and management.
+
+wininit.exe marks itself as critical, initializes the Windows temp directory, loads the rest of the registry, and starts user mode scheduling. It also installs programs that require a reboot to finish the install process. It also starts:
+
+lsm.exe - the Local Session Manager (LSM) handles all sessions of a system (both remote desktop sessions and local system sessions.)
+
+lsass.exe - the Local Security Authority Subsystem (LSASS) provides user authentication services, manages the local security policy, and generates access tokens.
+
+services.exe the Services Control Manager (SCM) loads AutoStart services, using LSASS to authenticate if they run as something other than System.
+```
+```
+Mitre ATT&CK: Hijack Execution Flow: Services Registry
+
+1. Showing the Spooler Service using SC
+
+sc query spooler
+
+SERVICE_NAME: Spooler
+DISPLAY_NAME: Print Spooler
+        TYPE               : 110  WIN32_OWN_PROCESS  (interactive)
+        STATE              : 4  RUNNING
+                                (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+2. Showing the *Service Control Manager* registry key
+
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services | findstr Spooler
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+3. Showing the contents of the Spooler Service Registry Key
+
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+    DisplayName    REG_SZ    @%systemroot%\system32\spoolsv.exe,-1
+    Group    REG_SZ    SpoolerGroup
+    ImagePath    REG_EXPAND_SZ    %SystemRoot%\System32\spoolsv.exe #1
+    Description    REG_SZ    @%systemroot%\system32\spoolsv.exe,-2
+    ObjectName    REG_SZ    LocalSystem #2
+1. The spooler service executable. What happens if someone changes that to a malicious binary?
+The account who runs the Spooler Service!
+1. Showing Services
+
+C:\Windows> tasklist /svc
+
+Image Name                     PID Session Name        Session#
+========================= ======== ================ ===========
+svchost.exe                   1040 EventSystem, fdPHost, FontCache, netprofm,
+                                   nsi, WdiServiceHost
+svchost.exe                   1076 AeLookupSvc, Appinfo, AppMgmt, BITS,
+                                   CertPropSvc, EapHost, gpsvc, iphlpsvc,
+                                   ProfSvc, Schedule, SCPolicySvc, SENS,
+                                   ShellHWDetection, Themes, Winmgmt, wuauserv
+CTAudSvc.exe                  1216 CTAudSvcService
+igfxCUIService.exe            1328 igfxCUIService2.0.0.0
+svchost.exe                   1388 CryptSvc, Dnscache, LanmanWorkstation,
+                                   NlaSvc, WinRM
+spoolsv.exe                   1568 Spooler
+svchost.exe                   1604 FDResPub, QWAVE, SCardSvr, SSDPSRV
+svchost.exe                   1644 BFE, DPS, MpsSvc
+armsvc.exe                    1768 AdobeARMservice
+```
+
+```bcdedit```
+  
+
 Linux Boot
   Describe the Linux Boot Process
   Identify the Linux Logon Process
+
+```
+Looking at Grub configuration in Linux to find the Kernel
+
+student@linux-opstation-kspt:/$ cat /boot/grub/grub.cfg #1
+_truncated_
+set linux_gfx_mode=auto
+export linux_gfx_mode
+menuentry 'Ubuntu' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-LABEL=cloudimg-rootfs' {
+        recordfail
+        load_video
+        gfxmode $linux_gfx_mode
+        insmod gzio
+        if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
+        insmod part_msdos
+        insmod ext2
+        if [ x$feature_platform_search_hint = xy ]; then
+            search --no-floppy --fs-uuid --set=root  6c0fba3b-b236-4b3a-b999-db7359c5d220
+        else
+            search --no-floppy --fs-uuid --set=root 6c0fba3b-b236-4b3a-b999-db7359c5d220
+        fi
+        linux   /boot/vmlinuz-4.15.0-76-generic root=LABEL=cloudimg-rootfs ro  console=tty1 console=ttyS0  #2
+        initrd  /boot/initrd.img-4.15.0-76-generic
+_truncated_
+```
+```
+Modules in Linux
+
+student@linux-opstation-kspt:/$ ltrace -S lsmod  # 1
+
+Module                  Size  Used by
+aesni_intel           188416  0
+aes_x86_64             20480  1 aesni_intel # 2
+crypto_simd            16384  1 aesni_intel
+glue_helper            16384  1 aesni_intel
+cryptd                 24576  3 crypto_simd,ghash_clmulni_intel,aesni_intel
+psmouse               151552  0
+ip_tables              28672  0
+virtio_blk             20480  2 # 3
+virtio_net             49152  0
+virtio_rng             16384  0
+virtio_gpu             53248  3
+```
+
 
 Windows Process Validity
   Describe Windows Processes
