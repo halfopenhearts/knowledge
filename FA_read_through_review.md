@@ -11,7 +11,7 @@ Windows PowerShell CTFd Challenges
 
 ```
 get-variable # will find where variables are located
-
+```
 
 All Users, All Hosts	$PSHOME\Profile.ps1
 All Users, Current Host	$PSHOME\Microsoft.PowerShell_profile.ps1
