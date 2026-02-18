@@ -11,8 +11,6 @@ Exam 1 - 100 points max - 10 questions - 70% required to pass
 
 ```
 get-variable # will find where variables are located
-```
-
 All Users, All Hosts	$PSHOME\Profile.ps1
 All Users, Current Host	$PSHOME\Microsoft.PowerShell_profile.ps1
 Current User, All Hosts	$HOME\Documents\WindowsPowerShell\Profile.ps1
