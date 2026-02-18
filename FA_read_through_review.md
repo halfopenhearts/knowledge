@@ -113,6 +113,160 @@ Windows Registry
   Identify Forensically Relevant Keys
   Identify Malicious Registry
 
+```
+Example Registry Layout
+
+
+HKEY_Local_Machine (HIVE)
+              ├──SOFTWARE (Key)
+              ├──BCD00000 (Key)
+              ├──HARDWARE (Key)
+              └──SYSTEM   (Key)
+                      └──RegisteredApplications (Subkey)
+                                        ├── File Explorer : Data (value)
+                                        ├── Paint : Data (value)
+                                        └──Wordpad : Data (value)
+
+```
+
+```
+There are five Registry Hives
+
+HKEY_LOCAL_MACHINE (HKLM)
+  - values are read every time the machine is started
+  - contains configuration information for the entire computer
+
+HKEY_USERS (HKU)
+  - Contains all all user profiles on the system. Contains one key per user on the system
+  - Each key is named after the SID(Security Identifier) of the user. (how to get sid of user and identify?)
+
+HKEY_CURRENT_USERS (HKCU)
+  - is the copy of the logged in user’s registry key based on thier SID from HKEY_USERS.
+  -
+
+HKEY_USERS (HIVE)
+              └──SID (S-1-5-21-3939661428-3032410992-3449649886-XXXX) (Key)
+
+HKEY_CURRENT_CONFIG (HKCC)
+  - is a symbolic link (pointer or shortcut or alias) to the following registry key:
+  -
+HKEY_Local_Machine (HIVE)
+              └──SYSTEM (Key)
+                      └──CurrentControlSet (Subkey)
+                                    └── Hardware Profiles (Subkey)
+                                                └── Current (Subkey)
+
+
+HKEY_CLASSES_ROOT (HKCR)
+  - is a symbolic link (pointer or shortcut or alias) to the following registry key:
+  -
+
+HKEY_Local_Machine (HIVE)
+              └──Software (Key)
+                      └──Classes (Subkey)
+
+```
+```
+Registry Structure and Data Types
+
+Registry Path	Hive and Supporting Files
+HKLM\SAM	SAM, SAM.LOG
+HKLM\SECURITY	SECURITY, SECURITY.LOG
+HKLM\SOFTWARE	software, software.LOG, software.sav
+HKLM\SYSTEM	system, system.LOG, system.sav
+HKLM\HARDWARE	(Dynamic/Volatile Hive)
+HKU.DEFAULT	default, default.LOG, default.sav
+HKU\SID	NTUSER.DAT
+HKU\SID_CLASSES	UsrClass.dat, UsrClass.dat.LOG
+```
+
+```
+
+reg /?                    #Displays help for all of the reg.exe commands
+reg query /?              #Displays help for the `reg query`
+reg add /?                #Displays help for `reg add`
+reg delete /?             #Displays help for `reg delete`
+
+
+Reads sub keys from the input value
+Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run #1
+Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\    #2
+
+reads the value 
+Get-item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+
+
+
+
+Get-PSDrive and net use * //
+are documented here ?
+talks alot about creating back doors when we're looking into persistence ?
+
+Show all Environmental Variables in the Env: directory
+Get-ChildItem Env:
+
+
+Microsoft Edge Internet URL history and Browser Artifacts and Forensics
+  -  referenced within a ctf and class?
+    HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\Children\001\Internet Explorer\DOMStorage
+
+USB history / USB Forensics
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB
+This registry key contains information about all USB devices that have been connected to the system at some point
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR
+This registry key specifically deals with USB storage devices, such as USB flash drives, external hard drives, etc. It contains information about connected USB storage devices, including details like device instance paths, hardware IDs, and other configuration information.
+
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU
+MRU is the abbreviation for most-recently-used.
+
+
+Windows User Profiles User Account Forensics
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
+Saved Network Profiles and How to decode Network history
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles
+Windows Virtual Memory and why it is important
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+This key maintains Windows virtual memory (paging file) configuration.
+The paging file (usually C:\pagefile.sys) may contain evidence/important information that could be removed once the suspect computer is shutdown.
+
+
+Recent search terms using Windows default search and Cortana - HKEY_CURRENT_USER\Software\Microsoft\Windows Search\ProcessedSearchRoots
+```
+
+
+```
+Persistence According to MITRE
+
+Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder - MITRE
+
+System-wide and per-user autoruns
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKU\ < SID > \Software\Microsoft\Windows\CurrentVersion\Run
+HKU\ < SID > \Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\SYSTEM\CurrentControlSet\services
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+HKLM\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon
+
+critical Registry Locations
+These are keys that have value for red and blue teams to be taken advantage of.
+
+HKLM\BCD00000000
+
+Replacement of old boot.ini file
+HKLM\SAM\SAM
+
+Use "psexec -s -i regedit" from administrator cmd.exe to view the SAM
+
+It opens a new regedit.exe window with system permissions
+```
+
 1. Alternate Data Streams - NO OBJECTIVES ?
   ADS was first introduced to NTFS in Windows NT 3.1 and was Microsoft’s attempt at implementing filesystem forks in order to maintain compatibility with other filesystems like Apple’s HFS+ and Novell’s NWFS and NSS.
   In NTFS – files consists of attributes, security settings, mainstreams and alternate streams. By default, only the mainstream is visible.
