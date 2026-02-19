@@ -1,0 +1,97 @@
+day 1
+powershell profiles
+so like all users all hosts
+
+
+
+day 2
+persistence in reg
+run / runonce
+hkcu for whichever user
+in fa: "registry locations for persistence"
+
+alternate data streams
+
+linux essentials
+awk and grep and sudo -l
+if no execute privilege then you cannot cd
+
+windows boot process
+ - not really messing with / cbdedit ? not super important
+
+linux boot process
+eufi - master boot record
+what ssgt finds curious, is it sysv or sysb
+what system am i operating in?
+/etc run levels
+
+systemd target units?
+wants and requires
+
+service units?
+
+echo $PATH
+
+looking into profiles both linux and windows 
+
+
+process validity
+
+
+cronjobs
+The cron daemon checks the directories /var/spool/cron, /etc/cron.d and the file /etc/crontab, once a minute and executes any commands specified that match the time.
+
+1. Windows Artifacts¶
+Gain an understanding of what artifacts are and to track user or system activity with them.
+
+At the end of this lesson you will be able to describe and pull information from the following artifacts:
+
+UserAssist
+
+Windows Background Activity Moderator (BAM)
+
+Recycle Bin
+
+Prefetch
+
+Jump Lists
+
+Recent Files
+
+Browser Artifacts
+
+
+
+
+PS C:\> Get-Childitem 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select FullName  #1
+FullName
+
+C:\$RECYCLE.BIN\S-1-5-18
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1004
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005
+C:\$RECYCLE.BIN\S-1-5-21-950816436-4199619115-1663388479-500
+C:\$RECYCLE.BIN\S-1-5-18\desktop.ini
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1004\desktop.ini
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$I8QZ1U8.txt
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$IBBLWX1.txt
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$IGJUCO3.txt
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$R8QZ1U8.txt
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$RBBLWX1.txt
+C:\$RECYCLE.BIN\S-1-5-21-1584283910-3275287195-1754958050-1005\$RGJUCO3.txt
+**Output\_Truncated**
+Output shows all of the contents of the Recycle Bin. -Recurse will look at all user's/SID's contents
+Look at the different directories (SIDs) discuss how you would determine what users they belong to.
+
+Q: Since this gives us all the users on the machine, how would you find the specific user this information belogs to?
+
+Match SID to USER:
+
+    PS C:\> wmic useraccount where 'sid="S-1-5-21-1584283910-3275287195-1754958050-1005"' get name #1
+Name andy.dwyer
+
+
+
+
+/etc/rsyslog.conf
+
+
