@@ -1,5 +1,1 @@
-ip&&(icmp[0]=8||udp&&(udp[2:2]>=33434&&udp[2:2]<=33534))
- **starting TTL** 
-
-`ip&&ip[8]=1&&(icmp[0]=8||udp&&(udp[2:2]>=33434&&udp[2:2]<=33534))`
-sudo tcpdump -n 'ip&&(icmp[0]=8||udp&&(udp[2:2]>=33434&&udp[2:2]<=33534)||tcp[13]&2!=0)' -r BPFCheck.pcap | wc -l
+socket.AF_INET,socket.AF_INET6,socket.AF_UNIX
