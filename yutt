@@ -1,0 +1,119 @@
+What is running on a particular port:
+-nc [Target IP] [Target Port]-
+nc 172.16.82.106 22
+         OR
+nc -u 172.16.82.106 53
+ 
+Hosted on webserver:
+wget http://172.16.82.106
+wget -r http://172.16.82.106
+wget -r ftp://172.16.82.106
+wget -r ftp://172.16.82.106 --user=student --password=password
+
+Always check the share drive in our ranges:
+ls -al /usr/share/cctc
+
+PING SCAN:
+ping -c 1 172.16.82.106
+for i in {1..254}; do (ping -c 1 172.16.82.$i | grep "bytes from" &) ; done
+sudo nmap -sP 172.16.82.96/27
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NETWORK RECON METHOLOGY:
+1. Scan IP 21-23,80
+2. Banner grab open ports                nc <ip> <port#>
+3. wget -r http://    ftp://         --user --password
+4. Get on box
+5. ipconfig | ip addr    *Can I talk to other nets* *SHAREDRIVE*
+6. arp | netstat | tasklist | ps -elf | whoami | ss -ntpl
+7. Scan new subnet NC | NMAP | Ping Sweep
+8. LOOP BACK TO BEGINNING
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+xdg-open ./hint-01.png
+
+Download a file from a remote directory to a local directory
+scp student@172.16.82.106:secretstuff.txt /home/student
+
+Upload a file to a remote directory from a local directory
+scp secretstuff.txt student@172.16.82.106:/home/student
+
+Copy a file from a remote host to a separate remote host
+scp -3 student@172.16.82.106:/home/student/secretstuff.txt student@172.16.82.112:/home/student
+password:    password:
+
+SCP Syntax
+Recursive upload of a folder to remote
+scp -r folder/ student@172.16.82.106:
+
+Recursive download of a folder from remote
+scp -r student@172.16.82.106:folder/ .
+
+-SCP Syntax w/ alternate SSHD-
+Download a file from a remote directory to a local directory
+scp -P 1111 student@172.16.82.106:secretstuff.txt .
+
+-Upload a file to a remote directory from a local directory-
+scp -P 1111 secretstuff.txt student@172.16.82.106:
+
+mkfifo mypipe --Creates pipe tp send data through
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Internet_Host: CLIENT (Sending)
+nc -lvp 1111 < secret.txt
+
+Blue_Host-1: RELAY
+nc 10.10.0.40 1111 < mypipe | nc 192.168.1.10 3333 > mypipe
+
+Blue_Priv_Host-1: CLIENT (Receiving)
+nc -lvp 3333 > newsecret.txt
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SSH Options
+-L - Creates a port on the client mapped to a ip:port via the server
+-D - Creates a port on the client and sets up a SOCKS4 proxy tunnel where the target ip:port is specified dynamically | proxychains = 9050 | 
+-R - Creates the port on the server mapped to a ip:port via the client
+-NT - Do not execute a remote command and disable pseudo-tty (will hang window)    |ALWAYS USE|
+
+    -LOCAL PORT FORWARDING-
+ssh <username>@<pivot IP> -L <local bind port>:<target IP>:<target port> -NT
+
+|A|    |B|    |C|    |D|
+ssh student@B -L 4444:C:22
+
+ssh -p 4444 student@127.0.0.1
+
+    -LOCAL PORT FORWARING TO REMOTE-
+ssh student@172.16.1.15 -L 2222:172.16.40.10:22 -NT
+ssh student@localhost -p 2222 -NT
+
+    -FORWARD TRHOUGH TUNNEL-                        localhost/127.0.0.1 = where you are shot out of from previous ssh tunnel
+ssh student@C -L 2222:C:22 -NT
+ssh student@localhost -p 2222 -L 3322:D:22 -NT
+
+wget -r http://localhost :5555
+
+    -Ability to scan devices on device D while on device C-
+ssh student@B -L 4444:C:2222 -NT
+ssh student@localhost -p 4444 -D 9050 -NT
+proxychains nmap -T4 172.0.0.1/24
+
+FROM |B|             open on theirs:<tgt ip>:<tgt port>
+ssh student@10.10.0.40 -R 4422:localhost:22
+
+|A|
+ssh student@localhost -p 4422
+--------------------------TERMINAL BREAKDOWN EXAMPLE FOR BRIDGING----------------------------------
+A> ssh student@B -L 4444:C:22 -NT
+-------------------------------------------------------------
+A> ssh student@127.0.0.1 -p 4444
+C> telnet D
+D> ssh student@C -R 9999:localhost:22 -NT
+-------------------------------------------------------------
+A> ssh student@localhost -p 4444 -L 5555:localhost:9999 -NT
+-------------------------------------------------------------
+A> ssh student@127.0.0.1 -p 5555
+-------------------------------------------------------------
+A> ssh student@localhost -p 5555 -D 9050
+
+------------------MOVING TOOLS-----------------
+A> ssh students@B -L 4444:localhost:22
+A> ssh students@B -R 4444:localhost:22
+ssh students@localhost -p 4444 -D 9050 
+-------------------------------------------------------------------------------------------------------------------
