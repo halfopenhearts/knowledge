@@ -110,7 +110,7 @@ Use the response to ask the next one
 
 
 
-Cheat Sheet (burn this in your brain)
+Cheat Sheet
 1. Test injection
 ' OR 1=1-- -
 2. Find columns
